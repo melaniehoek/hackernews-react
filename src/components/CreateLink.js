@@ -20,11 +20,15 @@ const POST_MUTATION = gql`
 const CreateLink = () => {
   const [description, setDescription] = useState("");
   const [url, setUrl] = useState("");
+  const [error, setError] = useState();
   const history = useHistory();
 
   const [postMutation] = useMutation(POST_MUTATION, {
     variables: { description, url },
-    onCompleted: () => history.push("/new/1"),
+    onCompleted: () => {
+      setError();
+      history.push("/new/1");
+    },
     update: (cache, { data: { post } }) => {
       const first = LINKS_PER_PAGE;
       const skip = 0;
@@ -42,6 +46,12 @@ const CreateLink = () => {
     },
   });
 
+  const onSubmit = () => {
+    postMutation().catch((err) =>
+      setError("Something went wrong, you must be logged in to add a new link.")
+    );
+  };
+
   return (
     <div className="flex flex-column mt3">
       <input
@@ -58,7 +68,8 @@ const CreateLink = () => {
         type="text"
         placeholder="The URL for the link"
       />
-      <button onClick={postMutation}>Submit</button>
+      <button onClick={onSubmit}>Submit</button>
+      {error && <p className="red">{error}</p>}
     </div>
   );
 };

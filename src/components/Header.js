@@ -23,10 +23,14 @@ const Header = () => {
         <Link to="/search" className="ml1 no-underline black">
           search
         </Link>
-        <div className="ml1">|</div>
-        <Link to="/create" className="ml1 no-underline black">
-          submit
-        </Link>
+        {authToken && (
+          <>
+            <div className="ml1">|</div>
+            <Link to="/create" className="ml1 no-underline black">
+              submit
+            </Link>
+          </>
+        )}
       </div>
       <div className="flex flex-fixed">
         {authToken ? (

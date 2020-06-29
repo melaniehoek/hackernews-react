@@ -26,10 +26,12 @@ const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [name, setName] = useState();
+  const [error, setError] = useState();
   const history = useHistory();
   const { setAuthToken } = useAuthToken();
 
   const confirm = (data) => {
+    setError(null);
     const { token } = login ? data.login : data.signup;
     setAuthToken(token);
     history.push("/");
@@ -43,6 +45,14 @@ const Login = () => {
     variables: { email, password },
     onCompleted: (data) => confirm(data),
   });
+
+  const onSubmit = () => {
+    if (login) {
+      loginMutation().catch((err) => setError("Invalid login credentials"));
+    } else {
+      signupMutation().catch((err) => setError("Invalid login credentials"));
+    }
+  };
 
   return (
     <div>
@@ -70,16 +80,14 @@ const Login = () => {
         />
       </div>
       <div className="flex mt3">
-        <div
-          className="pointer mr2 button"
-          onClick={login ? loginMutation : signupMutation}
-        >
+        <div className="pointer mr2 button" onClick={onSubmit}>
           {login ? "login" : "create account"}
         </div>
         <div className="pointer button" onClick={() => setLogin(!login)}>
           {login ? "need to create an account?" : "already have an account?"}
         </div>
       </div>
+      {error && <p className="red">{error}</p>}
     </div>
   );
 };

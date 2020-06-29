@@ -47,7 +47,7 @@ const Link = ({ link, index, updateCacheAfterVote }) => {
       <div className="ml1">
         <div>
           {link.description}{" "}
-          <a className="gray cursor f11" href={link.url}>
+          <a className="gray cursor f11" href={link.url} target="__blank">
             ({link.url})
           </a>
         </div>
