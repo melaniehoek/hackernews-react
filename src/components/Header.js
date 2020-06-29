@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
-import useAuthToken from "../hooks/useAuthToken";
+import { AuthContext } from "../Context/AuthProvider";
 
 const Header = () => {
-  const { authToken, removeAuthToken } = useAuthToken();
+  const { authToken, removeAuthToken } = useContext(AuthContext);
   const history = useHistory();
 
   return (

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useMutation } from "react-apollo";
 import gql from "graphql-tag";
 import { useHistory } from "react-router-dom";
 
-import useAuthToken from "../hooks/useAuthToken";
+import { AuthContext } from "../Context/AuthProvider";
 
 const SIGNUP_MUTATION = gql`
   mutation signupMutation($email: String!, $password: String!, $name: String!) {
@@ -28,7 +28,7 @@ const Login = () => {
   const [name, setName] = useState();
   const [error, setError] = useState();
   const history = useHistory();
-  const { setAuthToken } = useAuthToken();
+  const { setAuthToken } = useContext(AuthContext);
 
   const confirm = (data) => {
     setError(null);

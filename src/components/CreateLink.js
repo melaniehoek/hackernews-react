@@ -68,7 +68,9 @@ const CreateLink = () => {
         type="text"
         placeholder="The URL for the link"
       />
-      <button onClick={onSubmit}>Submit</button>
+      <button style={{ maxWidth: 500 }} onClick={onSubmit}>
+        Submit
+      </button>
       {error && <p className="red">{error}</p>}
     </div>
   );
