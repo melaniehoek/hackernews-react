@@ -23,9 +23,9 @@ const LOGIN_MUTATION = gql`
 
 const Login = () => {
   const [login, setLogin] = useState(true);
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [name, setName] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [error, setError] = useState();
   const history = useHistory();
   const { setAuthToken } = useContext(AuthContext);
@@ -46,7 +46,6 @@ const Login = () => {
     variables: { email, password },
     onCompleted: (data) => confirm(data),
   });
-  // TODO error logging
   const onSubmit = () => {
     if (email.trim() === "" || password.trim() === "") {
       setError("Please fill out all fields");
