@@ -32,6 +32,7 @@ const Login = () => {
 
   const confirm = (data) => {
     setError(null);
+
     const { token } = login ? data.login : data.signup;
     setAuthToken(token);
     history.push("/");
@@ -45,13 +46,24 @@ const Login = () => {
     variables: { email, password },
     onCompleted: (data) => confirm(data),
   });
-
+  // TODO error logging
   const onSubmit = () => {
-    if (login) {
-      loginMutation().catch((err) => setError("Invalid login credentials"));
+    if (email.trim() === "" || password.trim() === "") {
+      setError("Please fill out all fields");
     } else {
-      signupMutation().catch((err) => setError("Invalid login credentials"));
+      if (login) {
+        loginMutation().catch(handleError);
+      } else {
+        signupMutation().catch(handleError);
+      }
     }
+  };
+
+  const handleError = (error) => {
+    if (error.graphQLErrors[0]) {
+      setError(error.graphQLErrors[0].message);
+    }
+    setPassword("");
   };
 
   return (

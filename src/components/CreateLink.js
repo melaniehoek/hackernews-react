@@ -47,9 +47,15 @@ const CreateLink = () => {
   });
 
   const onSubmit = () => {
-    postMutation().catch((err) =>
-      setError("Something went wrong, you must be logged in to add a new link.")
-    );
+    if (description.trim() === "" || url.trim() === "") {
+      setError("Please enter a description and url");
+    } else {
+      postMutation().catch((err) =>
+        setError(
+          "Something went wrong, you must be logged in to add a new link."
+        )
+      );
+    }
   };
 
   return (
