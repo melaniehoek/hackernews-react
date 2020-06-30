@@ -40,20 +40,32 @@ const Login = () => {
 
   const [signupMutation] = useMutation(SIGNUP_MUTATION, {
     variables: { email, password, name },
-    onCompleted: (data) => confirm(data),
+    // onCompleted: (data, error) => confirm(data),
   });
   const [loginMutation] = useMutation(LOGIN_MUTATION, {
     variables: { email, password },
-    onCompleted: (data) => confirm(data),
+    // onCompleted: (data) => confirm(data),
   });
   const onSubmit = () => {
     if (email.trim() === "" || password.trim() === "") {
       setError("Please fill out all fields");
     } else {
       if (login) {
-        loginMutation().catch(handleError);
+        loginMutation()
+          .then(({ data, errors }) => {
+            if (!errors) {
+              confirm(data);
+            }
+          })
+          .catch(handleError);
       } else {
-        signupMutation().catch(handleError);
+        signupMutation()
+          .then(({ data, errors }) => {
+            if (!errors) {
+              confirm(data);
+            }
+          })
+          .catch(handleError);
       }
     }
   };
